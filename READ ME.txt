@@ -1,0 +1,7 @@
+Install requirements in local folder by typing:
+pip install -r requirements.txt
+
+After the dependencies are finished installing you can run GOLoc.py to run the model in Python3.6.
+
+
+-Wayne
