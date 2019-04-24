@@ -1,18 +1,15 @@
 import os
 # os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 # os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-from time import time
 import numpy as np
 import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Dropout
-from tensorflow.keras.layers import Activation
 from tensorflow.keras import optimizers
 from tensorflow.keras import Sequential
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.optimizers import SGD
-from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.models import model_from_json
 import matplotlib.pyplot as plt
 
@@ -67,17 +64,6 @@ Y_train = train_dataset.pop('pokemonId')
 Y_test = test_dataset.pop('pokemonId')
 
 
-# Normalize the data
-# X_train = tf.keras.utils.normalize(
-#     train_dataset,
-#     axis=-1,
-#     order=2
-# )
-# X_test = tf.keras.utils.normalize(
-#     test_dataset,
-#     axis=-1,
-#     order=2
-# )
 X_train = train_dataset
 X_test = test_dataset
 
@@ -105,8 +91,7 @@ def build_model():
     model.add(Dense(64, input_shape=[len(X_train.keys())], activation='relu', kernel_initializer='random_normal'))
     model.add(Dense(64, activation='relu', kernel_initializer='random_normal'))
     model.add(Dropout(0.5))
-    # model.add(Dense(56, activation='relu'))
-    # model.add(Dropout(0.5))
+
     model.add(Dense(1))
 
     # 8-12-24-48-24-12-1 Layer setup
@@ -201,18 +186,8 @@ def predict(loaded_model):
     plt.ylim([0, plt.ylim()[1]])
     _ = plt.plot([-151, 151], [-151, 151])
 
-    # error = test_predictions - Y_test
-    # plt.hist(error, bins=25)
-    # plt.xlabel("Prediction Error [MPG]")
-    # _ = plt.ylabel("Count")
-
     plt.show()
 
-    # test = X_train[:10]
-    # # Predict the 10 highest numbers in the test data
-    # prediction = model.predict(test)
-    # print(prediction)
-    # # top10 = [prediction[i] for i in prediction]
 
 
 def plot_history(plt_history):
@@ -275,7 +250,3 @@ if __name__ == "__main__":
 
     predict_model = load_model()
     predict(predict_model)
-
-    # print("Predictions:\n")
-    # top10 = predict(model)
-    # print(top10)
